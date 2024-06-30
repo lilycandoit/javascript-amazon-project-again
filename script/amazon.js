@@ -95,6 +95,9 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     addedMessage.classList.add('added-cart-visible');
 
+    //pending from this step
+    
+
     // make the message disappear
     setTimeout(() => {
       addedMessage.classList.remove('added-cart-visible');
