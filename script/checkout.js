@@ -1,4 +1,4 @@
-import { cart, removeFromCart} from '../data/cart.js';
+import { cart, removeFromCart, updateCartQuantity} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -96,7 +96,17 @@ cart.forEach((cartItem) => {
 });
 document.querySelector('.order-summary').innerHTML = html;
 
-// handle delete product
+// update totalCartItems in checkout header
+function totalCartItems(){
+  const totalItems = updateCartQuantity();
+
+  document.querySelector('.js-total-items').innerHTML = `${totalItems} items`;
+}
+
+totalCartItems();
+
+
+// handle delete product 
 document.querySelectorAll('.js-delete-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;
