@@ -1,4 +1,4 @@
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 
 let html = '';
@@ -62,45 +62,20 @@ document.querySelector('.products-grid').innerHTML = html;
 
 const addedMessageTimeout = {}; //initialize it as an object to save timeoutIds associated with specific product IDs
 
-// make add to cart interactive
+// make add to cart button interactive
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const productId = button.dataset.productId;
 
-    let matchingItem;
-    cart.forEach((cartItem) => {
-      if (productId === cartItem.productId) {
-        matchingItem = cartItem;
-      }
-    });
-
-    const quantitySelector = document.querySelector(
-      `.js-quantity-selector-${productId}`
-    );
-
-    const quantitySelected = Number(quantitySelector.value);
-
-    if (matchingItem) {
-      matchingItem.quantity += quantitySelected;
-    } else {
-      cart.push({
-        productId: productId,
-        quantity: quantitySelected,
-      });
-    }
-
-    let cartQuantity = 0;
-    cart.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
-    });
-    document.querySelector('.cart-quantity').innerHTML = cartQuantity;
+    addToCart(productId);
+    updateCartQuantity();
 
     // make the added message popup
     const addedMessage = document.querySelector(`.js-added-cart-${productId}`);
 
     addedMessage.classList.add('added-cart-visible');
 
-    // make the message disappear
+    // make the Added message disappear
     // we need to check if any previous timeoutId. If so, clear it by using clearTimeout.
     const previousTimeoutId = addedMessageTimeout[productId];
     if (previousTimeoutId) {
@@ -115,3 +90,11 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     addedMessageTimeout[productId] = timeoutId;
   });
 });
+
+function updateCartQuantity(){
+    let cartQuantity = 0;
+    cart.forEach((cartItem) => {
+      cartQuantity += cartItem.quantity;
+    });
+    document.querySelector('.cart-quantity').innerHTML = cartQuantity;
+}
