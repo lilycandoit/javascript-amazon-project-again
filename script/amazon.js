@@ -57,6 +57,8 @@ products.forEach((product) => {
 
 document.querySelector('.products-grid').innerHTML = html;
 
+const addedMessageTimeout = {};//initialize it as an object to save timeoutIds associated with specific product IDs
+
 // make add to cart interactive
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
@@ -95,12 +97,19 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
     addedMessage.classList.add('added-cart-visible');
 
-    //pending from this step
-    
-
     // make the message disappear
-    setTimeout(() => {
+    // we need to check if any previous timeoutId. If so, clear it by using clearTimeout. 
+    const previousTimeoutId = addedMessageTimeout[productId];
+    if (previousTimeoutId){
+      clearTimeout(previousTimeoutId);
+    }
+
+
+    const timeoutId = setTimeout(() => {
       addedMessage.classList.remove('added-cart-visible');
     }, 2000);
-  });
+
+    //save the timeoutId for this product ID:
+    addedMessageTimeout[productId] = timeoutId;
+  }); 
 });
