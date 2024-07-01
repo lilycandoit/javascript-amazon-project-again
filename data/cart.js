@@ -29,3 +29,14 @@ export function addToCart(productId){
 function saveToStorage(){
   localStorage.setItem('cart', JSON.stringify(cart));
 }
+
+export function removeFromCart(productId){
+  const newCart = [];
+  cart.forEach((cartItem)=>{
+    if (cartItem.productId !== productId){
+      newCart.push(cartItem);
+    } 
+  })
+  console.log(newCart);
+  cart = newCart;
+}
