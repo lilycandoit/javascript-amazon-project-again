@@ -48,3 +48,18 @@ export function updateCartQuantity(){
   });
   return cartQuantity;
 }
+
+export function updateQuantity(productId, newQuantity){
+  let matchingItem;
+  cart.forEach(cartItem => {
+    if (cartItem.productId === productId){
+      matchingItem = cartItem;
+    }
+  })
+
+  matchingItem.quantity = newQuantity;
+  // it looks for the matching items in the 'cart' array, then update the quantity of that item to the newQuantity. 
+  // then save the updated cart
+
+  saveToStorage();
+}

@@ -1,4 +1,4 @@
-import { cart, removeFromCart, updateCartQuantity} from '../data/cart.js';
+import { cart, removeFromCart, updateCartQuantity, updateQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -35,12 +35,20 @@ cart.forEach((cartItem) => {
           </div>
           <div class="product-quantity">
             <span>
-              Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+              Quantity: <span class="quantity-label js-quantity-label-${matchingItem.id}">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary">
+            <span class="update-quantity-link link-primary js-update-link" data-product-id=${
+              matchingItem.id
+            }>
               Update
             </span>
-            <span class="delete-quantity-link link-primary js-delete-link" data-product-id=${matchingItem.id}>
+            <input class="quantity-input js-quantity-input-${matchingItem.id}">
+            <span class="save-quantity-link primary-link js-save-link" data-product-id=${
+              matchingItem.id
+            }>Save</span>
+            <span class="delete-quantity-link link-primary js-delete-link" data-product-id=${
+              matchingItem.id
+            }>
               Delete
             </span>
           </div>
@@ -97,26 +105,65 @@ cart.forEach((cartItem) => {
 document.querySelector('.order-summary').innerHTML = html;
 
 // update totalCartItems in checkout header
-function totalCartItems(){
+function totalCartItems() {
   const totalItems = updateCartQuantity();
 
   document.querySelector('.js-total-items').innerHTML = `${totalItems} items`;
 }
-
 totalCartItems();
 
-
-// handle delete product 
+// handle delete product
 document.querySelectorAll('.js-delete-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;
     // to update the cart items after deleting
     removeFromCart(productId);
-    
-    // to remove the html of that item, we need to know which item by adding specific class on that item, attached with productId. 
-    const container = document.querySelector(`.js-cart-item-container-${productId}`);
 
-    //then, use remove() method to remove that element out of the frontend page. 
+    // to remove the html of that item, we need to know which item by adding specific class on that item, attached with productId.
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+
+    //then, use remove() method to remove that element out of the frontend page.
     container.remove();
-  })
-})
+    totalCartItems();
+  });
+});
+
+// handle update products
+document.querySelectorAll('.js-update-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    const productId = link.dataset.productId;
+
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+
+    container.classList.add('is-editing-quantity');
+
+   
+  });
+});
+
+// handle when saving the items edited
+ document.querySelectorAll('.js-save-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    const productId = link.dataset.productId;
+
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+    container.classList.remove('is-editing-quantity');
+
+    const quantityInput = document.querySelector(
+      `.js-quantity-input-${productId}`);
+
+    const newQuantity = Number(quantityInput.value);
+
+    updateQuantity(productId, newQuantity);// to update the new quantity of that cartItem (matching item)
+
+    document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
+
+    totalCartItems();
+  });
+});
