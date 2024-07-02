@@ -69,7 +69,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     const productId = button.dataset.productId;
 
     addToCart(productId);
-    updateCartQuantity();
+    calculateCartQuantity()
 
     // make the added message popup
     const addedMessage = document.querySelector(`.js-added-cart-${productId}`);
@@ -92,8 +92,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   });
 });
 
-  // move shared function to cart.js
-  // to calculate items in cart
+  // move shared function to cart.js to calculate items in cart
   function calculateCartQuantity(){
     const cartQuantity = updateCartQuantity();
     document.querySelector('.cart-quantity').innerHTML = cartQuantity;
