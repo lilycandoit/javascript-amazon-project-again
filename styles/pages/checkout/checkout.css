@@ -219,7 +219,8 @@
 } 
 
 .is-editing-quantity .quantity-input, .is-editing-quantity .save-quantity-link {
-  display: initial;
+  display: initial; 
+  /* it resets the display property to it default value, which depends on the element type (for example 'inline' for inline elements and 'block' for block elements */
 }
 
 .is-editing-quantity .update-quantity-link, .is-editing-quantity .quantity-label{

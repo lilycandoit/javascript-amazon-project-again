@@ -160,10 +160,15 @@ document.querySelectorAll('.js-update-link').forEach((link) => {
 
     const newQuantity = Number(quantityInput.value);
 
-    updateQuantity(productId, newQuantity);// to update the new quantity of that cartItem (matching item)
+    if (newQuantity < 0 || newQuantity > 1000){
+      alert('The input must be less more than 0 and less then 1000')
+    } else {
+      document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
+      
+      updateQuantity(productId, newQuantity);// to update the new quantity of that cartItem (matching item) =>> update the new items array in cart. 
+  
+      totalCartItems();
+    }
 
-    document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
-
-    totalCartItems();
   });
 });
