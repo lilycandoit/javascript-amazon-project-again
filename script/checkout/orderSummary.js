@@ -9,6 +9,7 @@ import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
+import { renderPaymentSummary} from './paymentSummary.js'
 
  export function renderOrderSummary() {
   let html = '';
@@ -142,7 +143,9 @@ import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.j
 
       //then, use remove() method to remove that element out of the frontend page.
       container.remove();
-      totalCartItems();
+
+      renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 
@@ -163,8 +166,12 @@ import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.j
       container.addEventListener('keydown', (event) => {
         if (event.target === inputEl && event.key === 'Enter') {
           displayNewQuantity(productId);
+
+          renderPaymentSummary();
         }
       });
+
+      renderPaymentSummary()
     });
   });
 
@@ -174,6 +181,9 @@ import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.j
       const productId = link.dataset.productId;
 
       displayNewQuantity(productId);
+
+      renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 
@@ -205,8 +215,9 @@ import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.j
   document.querySelectorAll('.js-delivery-option').forEach((element) => {
     element.addEventListener('click', () => {
       const { productId, deliveryOptionId } = element.dataset;
-      updateDeliveryOption(productId, deliveryOptionId);
+      updateDeliveryOption(productId, deliveryOptionId);// it will update the cart with the chosen delivery option
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
