@@ -9,7 +9,8 @@ import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js';
-import { renderPaymentSummary} from './paymentSummary.js'
+import { renderPaymentSummary} from './paymentSummary.js';
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
  export function renderOrderSummary() {
   let html = '';
@@ -122,12 +123,14 @@ import { renderPaymentSummary} from './paymentSummary.js'
   }
 
   // update totalCartItems in checkout header
+  /*
   function totalCartItems() {
     const totalItems = updateCartQuantity();
 
     document.querySelector('.js-total-items').innerHTML = `${totalItems} items`;
   }
   totalCartItems();
+  */
 
   // handle delete product
   document.querySelectorAll('.js-delete-link').forEach((link) => {
@@ -144,6 +147,7 @@ import { renderPaymentSummary} from './paymentSummary.js'
       //then, use remove() method to remove that element out of the frontend page.
       container.remove();
 
+      renderCheckoutHeader();
       renderOrderSummary();
       renderPaymentSummary();
     });
@@ -167,11 +171,13 @@ import { renderPaymentSummary} from './paymentSummary.js'
         if (event.target === inputEl && event.key === 'Enter') {
           displayNewQuantity(productId);
 
+          renderCheckoutHeader();
           renderPaymentSummary();
         }
       });
 
-      renderPaymentSummary()
+      renderCheckoutHeader();
+      renderPaymentSummary();
     });
   });
 
@@ -182,6 +188,7 @@ import { renderPaymentSummary} from './paymentSummary.js'
 
       displayNewQuantity(productId);
 
+      renderCheckoutHeader();
       renderOrderSummary();
       renderPaymentSummary();
     });
@@ -207,8 +214,6 @@ import { renderPaymentSummary} from './paymentSummary.js'
         newQuantity;
 
       updateQuantity(productId, newQuantity); // to update the new quantity of that cartItem (matching item) =>> update the new items array in cart.
-
-      totalCartItems();
     }
   }
 
@@ -216,6 +221,7 @@ import { renderPaymentSummary} from './paymentSummary.js'
     element.addEventListener('click', () => {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);// it will update the cart with the chosen delivery option
+      
       renderOrderSummary();
       renderPaymentSummary();
     });
