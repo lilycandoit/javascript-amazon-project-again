@@ -29,7 +29,7 @@ export function getDeliveryOption(deliveryOptionId){
   return deliveryOption || deliveryOptions[0];
 
 }
-
+// EXCLUDE WEEKENDS IN DELIVERY DATE
 const isWeekend = function isWeekend(date){
   const dayOfWeek = date.format('dddd');
   return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
@@ -53,3 +53,32 @@ export function getDeliveryDate(deliveryOption){
   return dateString;
 }
 
+
+//TRY WITH FOR LOOP => it does not work as expected => SHOULD USE WHILE LOOP IN THIS CASE
+/*
+const isWeekend = function isWeekend(date){
+  const day = date.day();
+
+  return day === 0 || day === 6 // 0 is Sunday, 6 is Saturday
+}
+
+export function getDeliveryDate(deliveryOption){
+  let remainingDays = deliveryOption.deliveryDays;
+
+  let deliveryDate = dayjs();
+
+  for (let i = 0; i < remainingDays; i++){
+    deliveryDate.add(1, 'day');
+
+    if (!isWeekend(deliveryDate)){
+      remainingDays --;
+    }
+  }
+
+  const dateString = deliveryDate.format('dddd, MMMM D YYYY');
+
+  console.log(dateString)
+
+  return dateString;
+}
+*/
