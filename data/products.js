@@ -55,28 +55,30 @@ class Clothing extends Product{
   extraInfoHTML(){
     //super.extraInfoHTML(); //we can inherit method as well if want. 
     return `
-      <a href=${this.sizeChartLink}>Size Chart</a>
+      <a href=${this.sizeChartLink} target='_blank'>Size Chart</a>
     `
   }
 }
 
-const tshirt = new Clothing({
-  id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
-  image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
-  name: "Adults Plain Cotton T-Shirt - 2 Pack",
-  rating: {
-    stars: 4.5,
-    count: 56
-  },
-  priceCents: 799,
-  keywords: [
-    "tshirts",
-    "apparel",
-    "mens"
-  ],
-  type: "clothing",
-  sizeChartLink: "images/clothing-size-chart.png"
-})
+class Appliance extends Product {
+  instructionsLink;
+  warrantyLink;
+
+  constructor(productDetails){
+    super(productDetails);
+
+    this.instructionsLink = productDetails.instructionsLink;
+    this.warrantyLink = productDetails.warrantyLink;
+  }
+
+  extraInfoHTML(){
+    return `
+      <a href=${this.instructionsLink} target='_blank'>Instructions Link</a>
+
+      <a href=${this.warrantyLink} target='_blank'>Warranty Link</a>
+    `
+  }
+}
 
 export const products = [
   {
@@ -138,7 +140,10 @@ export const products = [
       "toaster",
       "kitchen",
       "appliances"
-    ]
+    ],
+    type: 'appliance',
+    instructionsLink: 'images/appliance-instructions.png',
+    warrantyLink: 'images/appliance-warranty.png'
   },
   {
     id: "3ebe75dc-64d2-4137-8860-1f5a963e534b",
@@ -323,7 +328,10 @@ export const products = [
       "water boiler",
       "appliances",
       "kitchen"
-    ]
+    ],
+    type: 'appliance',
+    instructionsLink: 'images/appliance-instructions.png',
+    warrantyLink: 'images/appliance-warranty.png'
   },
   {
     id: "6b07d4e7-f540-454e-8a1e-363f25dbae7d",
@@ -741,6 +749,11 @@ export const products = [
   if(product.type === 'clothing'){
     return new Clothing(product);
   }
+
+  if(product.type === 'appliance'){
+    return new Appliance(product);
+  }
+
   return new Product(product);
 });
 
