@@ -60,3 +60,38 @@ car1.brake();
 car1.go();
 console.log(car1.displayInfo());
 // result: Toyota Corolla, Speed: 25 km/h, closed
+
+
+//17e
+class RaceCar extends Car{
+  acceleration;
+
+  constructor(carDetails){
+    super(carDetails);
+    this.acceleration = carDetails.acceleration;
+  }
+
+  go(){
+    this.speed += this.acceleration;
+
+    if (this.speed > 300){
+      this.speed = 300;
+    }
+  }
+
+  displayInfo(){
+    console.log(`${this.brand} ${this.model}, Speed: ${this.speed} km/h, acceleration: ${this.acceleration}`)
+  }
+
+}
+
+const raceCar = new RaceCar({
+  brand: 'Toyota', 
+  model: 'Corolla', 
+  acceleration: 20
+})
+
+raceCar.go();
+raceCar.go();
+raceCar.go();
+raceCar.displayInfo();
