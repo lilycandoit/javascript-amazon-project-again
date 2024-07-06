@@ -1,10 +1,10 @@
 class Car {
-  brand;
-  model;
+  #brand;
+  #model;
 
   constructor(carDetails){
-    this.brand = carDetails.brand;
-    this.model = carDetails.model;
+    this.#brand = carDetails.brand;
+    this.#model = carDetails.model;
   }
 
   speed = 0;
@@ -14,7 +14,7 @@ class Car {
   displayInfo(){
     const trunkStatus = this.isTrunkopen ? 'open' : 'closed';
 
-    return `${this.brand} ${this.model}, Speed: ${this.speed} km/h, ${trunkStatus}`;
+    return `${this.#brand} ${this.#model}, Speed: ${this.speed} km/h, ${trunkStatus}`;
   }
   
   go(){
@@ -71,6 +71,7 @@ class RaceCar extends Car{
     this.acceleration = carDetails.acceleration;
   }
 
+  // overiding method
   go(){
     this.speed += this.acceleration;
 
@@ -79,6 +80,7 @@ class RaceCar extends Car{
     }
   }
 
+  // overiding method
   displayInfo(){
     console.log(`${this.brand} ${this.model}, Speed: ${this.speed} km/h, acceleration: ${this.acceleration}`)
   }
