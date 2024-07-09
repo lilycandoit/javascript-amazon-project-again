@@ -9,3 +9,4 @@ xhr.addEventListener('load', () => {
 xhr.open('GET', 'https://supersimplebackend.dev/products/hgfghfj');
 // to send request to the destination requested above
 xhr.send();
+//.send() is asynchronous, it mean when send request, it will not wait for the response to come back. =>> so to wait for the response, we should you addEventListener() like the above
