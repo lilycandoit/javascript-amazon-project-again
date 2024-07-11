@@ -6,6 +6,24 @@ import { loadCarts } from '../data/cart.js';
 //import '../data/cart-class.js';
 //import '../data/backend-practice.js';
 
+async function loadPage() {
+  await loadProductsFetch();
+
+  const value = await new Promise((resolve) => {
+    loadCarts(() => {
+      resolve('whatever value');
+    });
+  });
+
+  renderCheckoutHeader();
+  renderOrderSummary();
+  renderPaymentSummary();
+}
+
+loadPage();
+
+//USING PROMISE.ALL()
+/*
 Promise.all([
   loadProductsFetch(), // It already returned a promise
 
@@ -13,13 +31,16 @@ Promise.all([
     loadCarts(() => {
       resolve();
     });
-  })
+  }),
 ]).then((value) => {
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
 });
+*/
 
+
+// USING PROMISE
 /*
 new Promise((resolve) => {
   loadProducts(() => {
@@ -42,6 +63,8 @@ new Promise((resolve) => {
   });
   */
 
+
+// USING CALLBACK
 /*
 loadProducts(() => {
   loadCarts(() => {

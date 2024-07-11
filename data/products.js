@@ -111,9 +111,9 @@ export function loadProductsFetch() {
   return promise;
 }
 
-loadProductsFetch().then(() => {
-  console.log('next steps');
-});
+// loadProductsFetch().then(() => {
+//   console.log('next steps');
+// });
 
 
 // USING CALLBACK
