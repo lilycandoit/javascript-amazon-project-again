@@ -2,10 +2,11 @@ import { renderOrderSummary } from './checkout/orderSummary.js';
 import { renderPaymentSummary } from './checkout/paymentSummary.js';
 import { renderCheckoutHeader } from './checkout/checkoutHeader.js';
 import { loadProducts, loadProductsFetch } from '../data/products.js';
-import { loadCarts } from '../data/cart.js';
+import { loadCarts, loadCartFetch } from '../data/cart.js';
 //import '../data/cart-class.js';
 //import '../data/backend-practice.js';
 
+/*
 async function loadPage() {
   try {
     // throw 'error1'
@@ -13,7 +14,7 @@ async function loadPage() {
   
     const value = await new Promise((resolve, reject) => {
       // throw 'error2'
-      loadCarts(() => {
+      loadCartFetch(() => {
         //reject('error3')
         resolve('whatever value');
       });
@@ -28,23 +29,20 @@ async function loadPage() {
 }
 
 loadPage();
+*/
 
-//USING PROMISE.ALL()
-/*
-Promise.all([
+//USING PROMISE.ALL() + exercise 18i
+
+await Promise.all([
   loadProductsFetch(), // It already returned a promise
 
-  new Promise((resolve) => {
-    loadCarts(() => {
-      resolve();
-    });
-  }),
+  loadCartFetch(),
 ]).then((value) => {
   renderCheckoutHeader();
   renderOrderSummary();
   renderPaymentSummary();
 });
-*/
+
 
 
 // USING PROMISE
