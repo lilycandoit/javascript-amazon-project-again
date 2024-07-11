@@ -106,18 +106,21 @@ export function loadProductsFetch() {
 
       // fun(); => we dont use callback function here.
       // instead we can return from the function and then attach other steps outside of the fuction
-    });
+    })
+    /*.catch((error) => {
+      console.log('There is an unexpected error. Please try again later');
+    });*/
 
   return promise;
 }
+
 
 // loadProductsFetch().then(() => {
 //   console.log('next steps');
 // });
 
-
 // USING CALLBACK
-/*
+
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
@@ -138,10 +141,13 @@ export function loadProducts(fun) {
     fun();
   });
 
+  xhr.addEventListener('error', (error) => {
+    console.log('There is an unexpected error. Please try again later');
+  });
+
   xhr.open('GET', 'http://supersimplebackend.dev/products');
   xhr.send();
 }
-*/
 
 /*
 export const products = [
