@@ -1,6 +1,6 @@
-import formatCurrency from "../script/utils/money.js";
+import formatCurrency from '../script/utils/money.js';
 
-export function getProduct(productId){
+export function getProduct(productId) {
   // from productId => look for product details in products list
   let matchingItem;
 
@@ -13,50 +13,48 @@ export function getProduct(productId){
   return matchingItem;
 }
 
-class Product{
+class Product {
   id;
   image;
   name;
   rating;
   priceCents;
 
-  constructor(productDetails){
+  constructor(productDetails) {
     this.id = productDetails.id;
     this.image = productDetails.image;
     this.name = productDetails.name;
     this.rating = productDetails.rating;
     this.priceCents = productDetails.priceCents;
-
-    
   }
 
-  getStarUrl(){
-    return `images/ratings/rating-${this.rating.stars * 10}.png`
+  getStarUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
 
-  getPrice(){
-    return `$${formatCurrency(this.priceCents)}`
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
   }
 
-  extraInfoHTML(){
-    return ''
+  extraInfoHTML() {
+    return '';
   }
 }
 
-class Clothing extends Product{
+class Clothing extends Product {
   sizeChartLink;
 
-  constructor(productDetails){
-    super(productDetails);// to inherit all features from parent Product
+  constructor(productDetails) {
+    super(productDetails); // to inherit all features from parent Product
 
     this.sizeChartLink = productDetails.sizeChartLink;
   }
 
-  extraInfoHTML(){
-    //super.extraInfoHTML(); //we can inherit method as well if want. 
+  extraInfoHTML() {
+    //super.extraInfoHTML(); //we can inherit method as well if want.
     return `
       <a href=${this.sizeChartLink} target='_blank'>Size Chart</a>
-    `
+    `;
   }
 }
 
@@ -64,48 +62,86 @@ class Appliance extends Product {
   instructionsLink;
   warrantyLink;
 
-  constructor(productDetails){
+  constructor(productDetails) {
     super(productDetails);
 
     this.instructionsLink = productDetails.instructionsLink;
     this.warrantyLink = productDetails.warrantyLink;
   }
 
-  extraInfoHTML(){
+  extraInfoHTML() {
     return `
       <a href=${this.instructionsLink} target='_blank'>Instructions Link</a>
 
       <a href=${this.warrantyLink} target='_blank'>Warranty Link</a>
-    `
+    `;
   }
 }
 
-// USING BACKEND API
+// GET DAGA FROM BACKEND API
 export let products = [];
 
-export function loadProducts(fun){
+// USING FETCH INSTEAD OF CALLBACK TO RETURN A PROMISE
+export function loadProductsFetch() {
+  const promise = fetch('http://supersimplebackend.dev/products')
+    .then((response) => {
+      return response.json();
+      // response.json() is a promise, asynchronous => meaning need to wait for it to finish before moving to next step.
+
+      // use return to wait for finishing getting data from backend, it's like JSON.parse().
+    })
+    .then((productsData) => {
+      products = productsData.map((product) => {
+        if (product.type === 'clothing') {
+          return new Clothing(product);
+        }
+
+        if (product.type === 'appliance') {
+          return new Appliance(product);
+        }
+
+        return new Product(product);
+      });
+      console.log('load products');
+
+      // fun(); => we dont use callback function here.
+      // instead we can return from the function and then attach other steps outside of the fuction
+    });
+
+  return promise;
+}
+
+loadProductsFetch().then(() => {
+  console.log('next steps');
+});
+
+
+// USING CALLBACK
+/*
+export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
   xhr.addEventListener('load', () => {
-    products = JSON.parse(xhr.response).map( product => {
-      if(product.type === 'clothing'){
+    products = JSON.parse(xhr.response).map((product) => {
+      if (product.type === 'clothing') {
         return new Clothing(product);
       }
-    
-      if(product.type === 'appliance'){
+
+      if (product.type === 'appliance') {
         return new Appliance(product);
       }
-    
+
       return new Product(product);
-    })
-    console.log("load products");
-  
+    });
+    console.log('load products');
+
     fun();
-  })
+  });
 
   xhr.open('GET', 'http://supersimplebackend.dev/products');
   xhr.send();
 }
+*/
 
 /*
 export const products = [
@@ -785,4 +821,3 @@ export const products = [
   return new Product(product);
 });
 */
-
