@@ -75,7 +75,13 @@ function renderProductsGrid(){
     button.addEventListener('click', () => {
       const productId = button.dataset.productId;
 
-      addToCart(productId);
+      const quantitySelector = document.querySelector(
+        `.js-quantity-selector-${productId}`
+      );
+    
+      const quantitySelected = Number(quantitySelector.value);
+
+      addToCart(productId, quantitySelected);
       calculateCartQuantity()
 
       // make the added message popup

@@ -2,7 +2,7 @@ import { deliveryOptions } from './deliveryOptions.js';
 
 export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-export function addToCart(productId) {
+export function addToCart(productId, quantity) {
   let matchingItem;
   cart.forEach((cartItem) => {
     if (productId === cartItem.productId) {
@@ -10,18 +10,12 @@ export function addToCart(productId) {
     }
   });
 
-  const quantitySelector = document.querySelector(
-    `.js-quantity-selector-${productId}`
-  );
-
-  const quantitySelected = Number(quantitySelector.value);
-
   if (matchingItem) {
-    matchingItem.quantity += quantitySelected;
+    matchingItem.quantity += quantity;
   } else {
     cart.push({
       productId: productId,
-      quantity: quantitySelected,
+      quantity: quantity,
       deliveryOptionId: '3',
     });
   }
@@ -97,11 +91,10 @@ export function loadCarts(fun) {
 }
 
 //EXERCISE
-export async function loadCartFetch(){
+export async function loadCartFetch() {
   const response = await fetch('https://supersimplebackend.dev/cart');
 
   const result = await response.text();
 
   console.log(result);
 }
-
