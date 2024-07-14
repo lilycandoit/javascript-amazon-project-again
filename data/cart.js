@@ -98,3 +98,10 @@ export async function loadCartFetch() {
 
   console.log(result);
 }
+
+// extra feature: make the cart empty after creating an order. 
+
+export function resetCart(){
+  cart = [];
+  saveToStorage();
+}
