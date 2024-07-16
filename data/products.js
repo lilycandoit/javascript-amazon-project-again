@@ -85,7 +85,7 @@ export let products = [];
 
 // USING FETCH INSTEAD OF CALLBACK TO RETURN A PROMISE
 export function loadProductsFetch() {
-  const promise = fetch('http://supersimplebackend.dev/products')
+  const promise = fetch('https://supersimplebackend.dev/products')
     .then((response) => {
       return response.json();
       // response.json() is a promise, asynchronous => meaning need to wait for it to finish before moving to next step.
@@ -147,7 +147,7 @@ export function loadProducts(fun) {
     console.log('There is an unexpected error. Please try again later');
   });
 
-  xhr.open('GET', 'http://supersimplebackend.dev/products');
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 }
 
